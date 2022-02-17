@@ -1,11 +1,10 @@
 name: gnome-klotski
 adopt-info: gnome-klotski
-grade: stable # must be 'stable' to release into candidate/stable channels
+grade: stable
 confinement: strict
-base: core18
+base: core20
 
 slots:
-  # for GtkApplication registration
   gnome-klotski:
     interface: dbus
     bus: session
@@ -13,10 +12,8 @@ slots:
 
 apps:
   gnome-klotski:
-    extensions: [gnome-3-28]
+    extensions: [gnome-3-38]
     command: usr/bin/gnome-klotski
-    plugs:
-      - gsettings
     common-id: org.gnome.Klotski.desktop
     desktop: usr/share/applications/org.gnome.Klotski.desktop
 
@@ -24,17 +21,11 @@ parts:
   gnome-klotski:
     source: https://gitlab.gnome.org/GNOME/gnome-klotski.git
     source-type: git
-    source-branch: gnome-3-34
+    source-tag: '3.38.2'
     plugin: meson
     override-pull: |
       snapcraftctl pull
       snapcraftctl set-version $(git describe --tags --abbrev=10)
-    override-build: |
-      sed -i.bak -e 's|=gnome-klotski$|=${SNAP}/meta/gui/gnome-klotski.svg|g' data/org.gnome.Klotski.desktop.in
-      snapcraftctl build
-      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp ../src/data/icons/hicolor/scalable/org.gnome.Klotski.svg $SNAPCRAFT_PART_INSTALL/meta/gui/gnome-klotski.svg
-      #cp data/org.gnome.Klotski.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     meson-parameters: [--prefix=/snap/gnome-klotski/current/usr]
     parse-info: [usr/share/metainfo/org.gnome.Klotski.appdata.xml]
 
@@ -42,19 +33,4 @@ parts:
       snap/gnome-klotski/current/usr: usr
     build-packages:
       - appstream-util
-      - gettext
-      - intltool
-      - libglib2.0-dev
-      - libgnome-games-support-1-dev
-      - libgtk-3-dev
-      - librsvg2-dev
-      - valac
       - yelp-tools
-  libraries:
-    plugin: nil
-    stage-packages:
-      - libgnome-games-support-1-3
-      - libgee-0.8-2
-    prime:
-      - "usr/lib/*/libgnome-games-support-1.so.*"
-      - "usr/lib/*/libgee-0.8.so.*"
