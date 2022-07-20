@@ -2,7 +2,7 @@ name: gnome-klotski
 adopt-info: gnome-klotski
 grade: stable
 confinement: strict
-base: core20
+base: core22
 
 slots:
   gnome-klotski:
@@ -12,7 +12,7 @@ slots:
 
 apps:
   gnome-klotski:
-    extensions: [gnome-3-38]
+    extensions: [gnome]
     command: usr/bin/gnome-klotski
     common-id: org.gnome.Klotski.desktop
     desktop: usr/share/applications/org.gnome.Klotski.desktop
@@ -24,13 +24,12 @@ parts:
     source-tag: '3.38.2'
     plugin: meson
     override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version $(git describe --tags --abbrev=10)
-    meson-parameters: [--prefix=/snap/gnome-klotski/current/usr]
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=10)
+    meson-parameters:
+      - --prefix=/usr
     parse-info: [usr/share/metainfo/org.gnome.Klotski.appdata.xml]
-
-    organize:
-      snap/gnome-klotski/current/usr: usr
     build-packages:
       - appstream-util
       - yelp-tools
+      - libc6-dev
