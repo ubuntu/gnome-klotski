@@ -28,6 +28,7 @@ parts:
       craftctl set version=$(git describe --tags --abbrev=10)
     meson-parameters:
       - --prefix=/usr
+      - --buildtype=release
     parse-info: [usr/share/metainfo/org.gnome.Klotski.appdata.xml]
     build-packages:
       - appstream-util
