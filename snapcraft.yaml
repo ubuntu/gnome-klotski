@@ -33,4 +33,3 @@ parts:
     build-packages:
       - appstream-util
       - yelp-tools
-      - libc6-dev
