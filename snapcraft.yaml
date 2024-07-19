@@ -2,7 +2,7 @@ name: gnome-klotski
 adopt-info: gnome-klotski
 grade: stable
 confinement: strict
-base: core22
+base: core24
 
 slots:
   gnome-klotski:
@@ -38,3 +38,6 @@ parts:
     build-packages:
       - appstream-util
       - yelp-tools
+      - libgnome-games-support-1-dev
+    stage-packages:
+      - libgnome-games-support-1-3
